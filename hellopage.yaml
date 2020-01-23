@@ -26,7 +26,7 @@ spec:
         app: hellopage
     spec:
       containers:
-      - image: quay.io/int128/hellopage:master
+      - image: quay.io/int128/hellopage:v1.0.2
         name: hellopage
         ports:
         - containerPort: 80
