@@ -1,0 +1,15 @@
+repositories:
+  - name: fluxcd
+    url: https://charts.fluxcd.io
+
+releases:
+  - name: flux
+    namespace: flux
+    chart: fluxcd/flux
+    values:
+      - git:
+          url: git@github.com:int128/hellopage-flux-cd
+          path: manifests
+          pollInterval: 1m
+        registry:
+          automationInterval: 1m

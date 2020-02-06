@@ -14,7 +14,6 @@ metadata:
   annotations:
     # https://docs.fluxcd.io/en/stable/references/automated-image-update.html
     fluxcd.io/automated: "true"
-    fluxcd.io/tag.app: semver:~1.0
 spec:
   replicas: 1
   selector:
