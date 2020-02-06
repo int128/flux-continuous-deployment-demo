@@ -55,6 +55,8 @@ make flux-logs
 make port-forward
 ```
 
+Open http://localhost:10080 and make sure the demo app is shown.
+
 ```sh
 make flux-logs
 ```
@@ -62,3 +64,9 @@ make flux-logs
 Push a commit to the default branch of https://github.com/int128/hellopage.
 
 Flux CD will push a commit to this repository for updating the image tag.
+
+### Clean up
+
+```sh
+make delete-cluster
+```

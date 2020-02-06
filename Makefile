@@ -22,3 +22,7 @@ port-forward:
 .PHONY: flux-logs
 flux-logs:
 	kubectl -n flux logs -f -lapp=flux
+
+.PHONY: cluster
+delete-cluster:
+	kind delete cluster --name $(CLUSTER_NAME)
