@@ -27,7 +27,6 @@ spec:
       containers:
       - name: app
         image: gcr.io/int128-1313/github.com/int128/hellopage:dev-f4813f6
-        name: hellopage
         ports:
         - containerPort: 80
 ---
