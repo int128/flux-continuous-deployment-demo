@@ -8,7 +8,7 @@ releases:
     chart: fluxcd/flux
     values:
       - git:
-          url: git@github.com:int128/hellopage-flux-cd
+          url: git@github.com:int128/continuous-deployment-flux-demo
           path: manifests
           pollInterval: 1m
         registry:
