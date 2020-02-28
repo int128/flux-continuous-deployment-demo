@@ -1,6 +1,16 @@
-# hellopage-flux-cd
+# continuous-deployment-flux-demo
 
-This is a demo for continuous deployment with Flux CD.
+This is a demo for continuous deployment with Flux.
+
+## Flow
+
+Basic flow of GitOps:
+
+![gitops-basic-flow.svg](gitops-basic-flow.svg)
+
+Continuous deployment using Flux:
+
+![gitops-continuous-deployment-flow.svg](gitops-continuous-deployment-flow.svg)
 
 ## Getting Started
 
