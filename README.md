@@ -1,6 +1,6 @@
 # flux-continuous-deployment-demo
 
-This is a demo of Continuous Deployment with Flux (automated deployment of new container images)[https://docs.fluxcd.io/en/stable/references/automated-image-update.html].
+This is a demo of Continuous Deployment with Flux [automated deployment of new container images](https://docs.fluxcd.io/en/stable/references/automated-image-update.html).
 
 ## Introduction
 
