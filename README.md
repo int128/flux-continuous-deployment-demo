@@ -1,14 +1,14 @@
-# continuous-deployment-flux-demo
+# flux-continuous-deployment-demo
 
-This is a demo for continuous deployment with Flux.
+This is a demo of Continuous Deployment with Flux (automated deployment of new container images)[https://docs.fluxcd.io/en/stable/references/automated-image-update.html].
 
-## Flow
+## Introduction
 
-Basic flow of GitOps:
+This is a typical flow of GitOps:
 
 ![gitops-basic-flow.svg](gitops-basic-flow.svg)
 
-Continuous deployment using Flux:
+Continuous Deployment with Flux:
 
 ![gitops-continuous-deployment-flow.svg](gitops-continuous-deployment-flow.svg)
 
