@@ -1,4 +1,6 @@
 repositories:
+  - name: stable
+    url: https://kubernetes-charts.storage.googleapis.com
   - name: fluxcd
     url: https://charts.fluxcd.io
 
@@ -15,3 +17,45 @@ releases:
         registry:
           includeImage: https://gcr.io/int128-1313/*
           automationInterval: 1m
+        prometheus:
+          enabled: true
+          serviceMonitor:
+            create: true
+            interval: 30s
+            namespace: monitoring
+
+  # https://github.com/helm/charts/tree/master/stable/metrics-server
+  - name: metrics-server
+    namespace: kube-system
+    chart: stable/metrics-server
+
+  # https://github.com/helm/charts/tree/master/stable/prometheus-operator
+  - name: prometheus-operator
+    namespace: monitoring
+    chart: stable/prometheus-operator
+    values:
+      - defaultRules:
+          create: false
+        prometheusOperator:
+          configReloaderCpu: 0m
+        prometheus:
+          prometheusSpec:
+            resources:
+              requests:
+                cpu: 0m
+        alertmanager:
+          alertmanagerSpec:
+            resources:
+              requests:
+                cpu: 0m
+        grafana.enabled: false
+        coreDns.enabled: false
+        kubeApiServer.enabled: false
+        kubeControllerManager.enabled: false
+        kubeDns.enabled: false
+        kubeEtcd.enabled: false
+        kubeProxy.enabled: false
+        kubeScheduler.enabled: false
+        kubeStateMetrics.enabled: false
+        kubelet.enabled: false
+        nodeExporter.enabled: false

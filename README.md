@@ -42,6 +42,7 @@ Open http://localhost:10080 and make sure the demo app is shown.
 Deploy Flux.
 
 ```sh
+kubectl create ns monitoring
 kubectl create ns flux
 make deploy-flux
 ```
