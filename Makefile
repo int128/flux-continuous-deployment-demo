@@ -7,17 +7,22 @@ export KUBECONFIG
 all:
 
 .PHONY: cluster
-cluster: $(OUTPUT_DIR)/kubeconfig.yaml
-$(OUTPUT_DIR)/kubeconfig.yaml:
+cluster: $(KUBECONFIG)
+$(KUBECONFIG):
 	kind create cluster --name $(CLUSTER_NAME)
 
-.PHONY: deploy
-deploy: cluster
+.PHONY: deploy-app
+deploy-app: cluster
 	kubectl apply -f manifests/
+	kubectl -n hellopage rollout status deployment hellopage
 
-.PHONY: port-forward
-port-forward:
+.PHONY: port-forward-app
+port-forward-app:
 	kubectl -n hellopage port-forward svc/hellopage 10080:80
+
+.PHONY: deploy-flux
+deploy-flux: cluster
+	helmfile sync
 
 .PHONY: flux-logs
 flux-logs:
@@ -26,3 +31,4 @@ flux-logs:
 .PHONY: cluster
 delete-cluster:
 	kind delete cluster --name $(CLUSTER_NAME)
+	-rm $(KUBECONFIG)

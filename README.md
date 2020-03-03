@@ -33,8 +33,8 @@ export KUBECONFIG=output/kubeconfig.yaml
 Deploy the manifests manually.
 
 ```sh
-make deploy
-make port-forward
+make deploy-app
+make port-forward-app
 ```
 
 Open http://localhost:10080 and make sure the demo app is shown.
@@ -43,15 +43,16 @@ Deploy Flux.
 
 ```sh
 kubectl create ns flux
-helmfile sync
+make deploy-flux
 ```
 
-Add the deploy key to the GitHub repository.
-See the [document](https://docs.fluxcd.io/en/stable/tutorials/get-started-helm.html#giving-write-access) for details.
+Get the public key of Flux.
 
 ```sh
 fluxctl --k8s-fwd-ns flux identity
 ```
+
+Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key.
 
 You can see the log of Flux.
 
@@ -59,10 +60,10 @@ You can see the log of Flux.
 make flux-logs
 ```
 
-### Deploy
+### Deploy the application
 
 ```sh
-make port-forward
+make port-forward-app
 ```
 
 Open http://localhost:10080 and make sure the demo app is shown.
@@ -73,7 +74,7 @@ make flux-logs
 
 Push a commit to the default branch of https://github.com/int128/hellopage.
 
-Flux CD will push a commit to this repository for updating the image tag.
+Flux will create a commit to this repository to update the image tag of deployment.
 
 ### Clean up
 
