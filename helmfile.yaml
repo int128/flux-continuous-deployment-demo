@@ -3,6 +3,7 @@ repositories:
     url: https://charts.fluxcd.io
 
 releases:
+  # https://github.com/fluxcd/flux/blob/master/chart/flux/README.md
   - name: flux
     namespace: flux
     chart: fluxcd/flux
@@ -12,4 +13,5 @@ releases:
           path: manifests
           pollInterval: 1m
         registry:
+          includeImage: https://gcr.io/int128-1313/*
           automationInterval: 1m
