@@ -23,25 +23,24 @@ You need the following tools:
 - Helmfile
 - fluxctl
 
-Create a cluster.
+Deploy the demo app.
 
 ```sh
+# Create a cluster
 make cluster
-export KUBECONFIG=output/kubeconfig.yaml
-```
 
-Deploy the manifests manually.
-
-```sh
+# Deploy the manifests
 make deploy-app
-make port-forward-app
-```
 
-Open http://localhost:10080 and make sure the demo app is shown.
+# Make sure you can access the demo app on http://localhost:10080
+make open-app
+```
 
 Deploy Flux.
 
 ```sh
+export KUBECONFIG=output/kubeconfig.yaml
+
 kubectl create ns flux
 make deploy-flux
 ```
@@ -63,10 +62,8 @@ make flux-logs
 ### Deploy the application
 
 ```sh
-make port-forward-app
+make open-app
 ```
-
-Open http://localhost:10080 and make sure the demo app is shown.
 
 ```sh
 make flux-logs

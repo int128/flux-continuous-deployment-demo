@@ -16,8 +16,9 @@ deploy-app: cluster
 	kubectl apply -f manifests/
 	kubectl -n hellopage rollout status deployment hellopage
 
-.PHONY: port-forward-app
-port-forward-app:
+.PHONY: open-app
+open-app:
+	open http://localhost:10080
 	kubectl -n hellopage port-forward svc/hellopage 10080:80
 
 .PHONY: deploy-flux
