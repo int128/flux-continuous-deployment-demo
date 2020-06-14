@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: gcr.io/int128-1313/github.com/int128/hellopage:dev-6d16b4d
+        image: gcr.io/int128-1313/github.com/int128/hellopage:dev-81f12fd
         ports:
         - containerPort: 80
 ---
