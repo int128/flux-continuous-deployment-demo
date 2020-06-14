@@ -26,11 +26,8 @@ You need the following tools:
 Deploy the demo app.
 
 ```sh
-# Create a cluster
-make cluster
-
-# Deploy the manifests
-make deploy-app
+# Create a cluster and deploy the manifests
+make
 
 # Make sure you can access the demo app on http://localhost:10080
 make open-app
@@ -42,7 +39,7 @@ Deploy Flux.
 export KUBECONFIG=output/kubeconfig.yaml
 
 kubectl create ns flux
-make deploy-flux
+helmfile sync
 ```
 
 Get the public key of Flux.
@@ -51,9 +48,22 @@ Get the public key of Flux.
 fluxctl --k8s-fwd-ns flux identity
 ```
 
-Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key.
+Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key with write access.
 
-You can see the log of Flux.
+Make sure that Flux recognizes the deployment.
+
+```console
+% fluxctl --k8s-fwd-ns flux list-workloads -n hellopage
+WORKLOAD                        CONTAINER  IMAGE                                                       RELEASE  POLICY
+hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/hellopage:dev-81f12fd  ready    automated
+
+% fluxctl --k8s-fwd-ns flux list-images -n hellopage
+WORKLOAD                        CONTAINER  IMAGE                                           CREATED
+hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/hellopage
+                                           '-> dev-81f12fd                                 14 Jun 20 07:11 UTC
+```
+
+You can see Flux log for debug.
 
 ```sh
 make flux-logs
@@ -63,10 +73,6 @@ make flux-logs
 
 ```sh
 make open-app
-```
-
-```sh
-make flux-logs
 ```
 
 Push a commit to the default branch of https://github.com/int128/hellopage.

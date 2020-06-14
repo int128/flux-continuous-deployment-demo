@@ -13,5 +13,5 @@ releases:
           path: manifests
           pollInterval: 1m
         registry:
-          includeImage: https://gcr.io/int128-1313/*
+          includeImage: gcr.io/int128-1313/github.com/int128/hellopage
           automationInterval: 1m
