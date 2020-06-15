@@ -1,32 +1,41 @@
 # flux-continuous-deployment-demo
 
-This is a demo of Continuous Deployment with Flux [automated deployment of new container images](https://docs.fluxcd.io/en/stable/references/automated-image-update.html).
+This is a demo of Continuous Deployment with Flux using the feature of [automated deployment of new container images](https://docs.fluxcd.io/en/stable/references/automated-image-update.html).
+
 
 ## Introduction
 
-This is a typical flow of GitOps:
+In a typical GitOps flow, you need to build a new Docker image and update the manifest to deploy the application.
 
 ![gitops-basic-flow.svg](gitops-basic-flow.svg)
 
-Continuous Deployment with Flux:
+In continuous deployment flow, you only need to build a new Docker image. Flux will update the manifest when a newer image is found.
 
 ![gitops-continuous-deployment-flow.svg](gitops-continuous-deployment-flow.svg)
 
-## Getting Started
+
+## Demo
+
+This demo uses the following repositories:
+
+- Application repository: https://github.com/int128/hellopage
+- Docker registry: https://gcr.io/int128-1313/github.com/int128/hellopage
+- Manifest repository: https://github.com/int128/flux-continuous-deployment-demo
+
 
 ### Set up
 
-You need the following tools:
+You need to install the following tools:
 
 - Docker
 - Kind
 - Helmfile
 - fluxctl
 
-Deploy the demo app.
+Create a cluster.
 
 ```sh
-# Create a cluster and deploy the manifests
+# Create a cluster and deploy the application manifests
 make
 
 # Make sure you can access the demo app on http://localhost:10080
@@ -42,13 +51,12 @@ kubectl create ns flux
 helmfile sync
 ```
 
-Get the public key of Flux.
+Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key with write access.
+You can get the deploy key as follows:
 
 ```sh
 fluxctl --k8s-fwd-ns flux identity
 ```
-
-Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key with write access.
 
 Make sure that Flux recognizes the deployment.
 
@@ -69,15 +77,15 @@ You can see Flux log for debug.
 make flux-logs
 ```
 
-### Deploy the application
 
-```sh
-make open-app
-```
+### Update the application
 
-Push a commit to the default branch of https://github.com/int128/hellopage.
+Open https://github.com/int128/hellopage and create a commit.
+Google Cloud Build will build an image and push it to GCR.
 
-Flux will create a commit to this repository to update the image tag of deployment.
+Then Flux will create a commit to this repository for updating the image tag of deployment.
+You can see the new version within a minute.
+
 
 ### Clean up
 
