@@ -17,25 +17,11 @@ releases:
           includeImage: gcr.io/int128-1313/github.com/int128/hellopage
           automationInterval: 1m
 
-  # https://github.com/helm/charts/tree/master/stable/nginx-ingress
-  - name: nginx-ingress
-    chart: stable/nginx-ingress
+  # https://github.com/helm/charts/tree/master/stable/contour
+  - name: contour
+    chart: stable/contour
     values:
-      - controller:
-          replicaCount: 1
-          resources:
-            limits:
-              memory: 128Mi
-            requests:
-              memory: 128Mi
-          service:
-            type: NodePort
-            nodePorts:
-              http: 30080
-        defaultBackend:
-          replicaCount: 1
-          resources:
-            limits:
-              memory: 16Mi
-            requests:
-              memory: 16Mi
+      - serviceType: NodePort
+        service:
+          nodePorts:
+            http: 30080

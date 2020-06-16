@@ -27,8 +27,8 @@ You can use your own components by replacing URLs in [`helmfile.yaml`](helmfile.
 
 This demo will deploy the following components:
 
-1. Application manifest (Deployment, Service and Ingress)
-1. NGINX Ingress
+1. Demo app (Deployment, Service and Ingress)
+1. Contour (Ingress controller)
 1. Flux
 
 You can access the demo app via Ingress on http://hellopage-127-0-0-1.nip.io:30080.
@@ -49,7 +49,7 @@ Create a cluster and deploy the demo app.
 make
 ```
 
-Deploy Flux and NGINX Ingress.
+Deploy Flux and Contour.
 
 ```sh
 export KUBECONFIG=output/kubeconfig.yaml
