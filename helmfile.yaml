@@ -1,11 +1,12 @@
 repositories:
+  - name: stable
+    url: https://kubernetes-charts.storage.googleapis.com
   - name: fluxcd
     url: https://charts.fluxcd.io
 
 releases:
   # https://github.com/fluxcd/flux/blob/master/chart/flux/README.md
   - name: flux
-    namespace: flux
     chart: fluxcd/flux
     values:
       - git:
@@ -15,3 +16,26 @@ releases:
         registry:
           includeImage: gcr.io/int128-1313/github.com/int128/hellopage
           automationInterval: 1m
+
+  # https://github.com/helm/charts/tree/master/stable/nginx-ingress
+  - name: nginx-ingress
+    chart: stable/nginx-ingress
+    values:
+      - controller:
+          replicaCount: 1
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              memory: 128Mi
+          service:
+            type: NodePort
+            nodePorts:
+              http: 30080
+        defaultBackend:
+          replicaCount: 1
+          resources:
+            limits:
+              memory: 16Mi
+            requests:
+              memory: 16Mi

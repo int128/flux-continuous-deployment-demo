@@ -22,9 +22,16 @@ This demo uses the following components:
 1. Google Cloud Build
 1. Google Container Registry: https://gcr.io/int128-1313/github.com/int128/hellopage
 1. Manifest repository: https://github.com/int128/flux-continuous-deployment-demo
-1. Kubernetes cluster on your machine
 
 You can use your own components by replacing URLs in [`helmfile.yaml`](helmfile.yaml).
+
+This demo will deploy the following components:
+
+1. Application manifest (Deployment, Service and Ingress)
+1. NGINX Ingress
+1. Flux
+
+You can access the demo app via Ingress on http://hellopage-127-0-0-1.nip.io:30080.
 
 
 ### Set up
@@ -36,40 +43,38 @@ You need to install the following tools:
 - Helmfile
 - fluxctl
 
-Create a cluster.
+Create a cluster and deploy the demo app.
 
 ```sh
-# Create a cluster and deploy the application manifests
 make
-
-# Make sure you can access the demo app on http://localhost:10080
-make open-app
 ```
 
-Deploy Flux.
+Deploy Flux and NGINX Ingress.
 
 ```sh
 export KUBECONFIG=output/kubeconfig.yaml
 
-kubectl create ns flux
 helmfile sync
 ```
+
+Open http://hellopage-127-0-0-1.nip.io:30080. Make sure the demo app shows up.
 
 Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key with write access.
 You can get the deploy key as follows:
 
-```sh
-fluxctl --k8s-fwd-ns flux identity
+```console
+% fluxctl identity
+ssh-rsa ...
 ```
 
 Make sure that Flux recognizes the deployment.
 
 ```console
-% fluxctl --k8s-fwd-ns flux list-workloads -n hellopage
+% fluxctl list-workloads -n hellopage
 WORKLOAD                        CONTAINER  IMAGE                                                       RELEASE  POLICY
 hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/hellopage:dev-81f12fd  ready    automated
 
-% fluxctl --k8s-fwd-ns flux list-images -n hellopage
+% fluxctl list-images -n hellopage
 WORKLOAD                        CONTAINER  IMAGE                                           CREATED
 hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/hellopage
                                            '-> dev-81f12fd                                 14 Jun 20 07:11 UTC
@@ -78,7 +83,7 @@ hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/
 You can see Flux log for debug.
 
 ```sh
-make flux-logs
+make logs-flux
 ```
 
 
@@ -91,7 +96,7 @@ Flux will create a commit to this repository for updating the image tag of deplo
 You can see the image tags which Flux scans.
 
 ```console
-% fluxctl --k8s-fwd-ns flux list-images -n hellopage
+% fluxctl list-images -n hellopage
 WORKLOAD                        CONTAINER  IMAGE                                           CREATED
 hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/hellopage
                                            '-> dev-7be21e9                                 15 Jun 20 01:52 UTC
@@ -106,7 +111,7 @@ You can see the new version within a minute.
 You can see Flux log for debug.
 
 ```sh
-make flux-logs
+make logs-flux
 ```
 
 When Flux found a newer image, it writes logs like:
