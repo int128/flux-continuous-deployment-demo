@@ -52,7 +52,7 @@ make
 It will create a cluster and deploy the following components:
 
 1. `Deployment`, `Service` and `Ingress` for the demo app
-1. [Contour](https://projectcontour.io) (Ingress controller)
+1. NGINX Ingress
 1. Flux
 
 Open http://hellopage-127-0-0-1.nip.io:30080 and make sure you can access the demo app.
