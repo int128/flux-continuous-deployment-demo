@@ -1,4 +1,4 @@
-CLUSTER_NAME := hellopage
+CLUSTER_NAME := fluxdemo
 OUTPUT_DIR := output
 KUBECONFIG := $(OUTPUT_DIR)/kubeconfig.yaml
 export KUBECONFIG
@@ -6,9 +6,18 @@ export KUBECONFIG
 .PHONY: all
 all: cluster
 
+.PHONY: check
+check:
+	docker version
+	kind version
+	kubectl version --client
+	helmfile --version
+	fluxctl version
+
 .PHONY: cluster
-cluster: cluster.yaml
+cluster:
 	kind create cluster --name $(CLUSTER_NAME) --config cluster.yaml
+	helmfile sync
 	kubectl apply -f manifests/
 	kubectl -n hellopage rollout status deployment hellopage
 

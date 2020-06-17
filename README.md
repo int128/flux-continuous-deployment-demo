@@ -18,23 +18,15 @@ In continuous deployment flow, you only need to build a new Docker image. Flux w
 
 This demo uses the following components:
 
-1. Application repository: https://github.com/int128/hellopage
-1. Google Cloud Build
-1. Google Container Registry: https://gcr.io/int128-1313/github.com/int128/hellopage
-1. Manifest repository: https://github.com/int128/flux-continuous-deployment-demo
+- Application repository: https://github.com/int128/hellopage
+- Google Cloud Build
+- Google Container Registry: https://gcr.io/int128-1313/github.com/int128/hellopage
+- Manifest repository: https://github.com/int128/flux-continuous-deployment-demo
 
 You can use your own components by replacing URLs in [`helmfile.yaml`](helmfile.yaml).
 
-This demo will deploy the following components:
 
-1. Demo app (Deployment, Service and Ingress)
-1. Contour (Ingress controller)
-1. Flux
-
-You can access the demo app via Ingress on http://hellopage-127-0-0-1.nip.io:30080.
-
-
-### Set up
+### 1. Set up the tools
 
 You need to install the following tools:
 
@@ -43,21 +35,33 @@ You need to install the following tools:
 - Helmfile
 - fluxctl
 
-Create a cluster and deploy the demo app.
+To check if the commands are available:
+
+```sh
+make check
+```
+
+### 2. Provision a cluster
+
+Run make.
 
 ```sh
 make
 ```
 
-Deploy Flux and Contour.
+It will create a cluster and deploy the following components:
+
+1. `Deployment`, `Service` and `Ingress` for the demo app
+1. [Contour](https://projectcontour.io) (Ingress controller)
+1. Flux
+
+Open http://hellopage-127-0-0-1.nip.io:30080 and make sure you can access the demo app.
+
+### 3. Configure Git access
 
 ```sh
 export KUBECONFIG=output/kubeconfig.yaml
-
-helmfile sync
 ```
-
-Open http://hellopage-127-0-0-1.nip.io:30080. Make sure the demo app shows up.
 
 Open https://github.com/int128/flux-continuous-deployment-demo/settings/keys and add the deploy key with write access.
 You can get the deploy key as follows:
@@ -86,8 +90,7 @@ You can see Flux log for debug.
 make logs-flux
 ```
 
-
-### Update the application
+### 4. Deploy a new version
 
 Open https://github.com/int128/hellopage and create a commit.
 Google Cloud Build will build an image and push it to GCR.
@@ -105,8 +108,14 @@ hellopage:deployment/hellopage  app        gcr.io/int128-1313/github.com/int128/
 
 You can see the new version within a minute.
 
+### 5. Clean up
 
-### Troubleshoot
+```sh
+make delete-cluster
+```
+
+
+## Troubleshoot
 
 You can see Flux log for debug.
 
@@ -130,11 +139,4 @@ ts=2020-06-15T01:53:52.4599673Z caller=daemon.go:292 component=sync-loop jobID=d
 ts=2020-06-15T01:53:52.4605235Z caller=daemon.go:701 component=daemon event="Commit: dbf6218, hellopage:deployment/hellopage" logupstream=false
 ts=2020-06-15T01:53:52.4608724Z caller=loop.go:153 component=sync-loop jobID=d23d293c-cf44-52b9-0624-e9e6a62462b7 state=done success=true
 ts=2020-06-15T01:53:54.3104503Z caller=loop.go:133 component=sync-loop event=refreshed url=ssh://git@github.com/int128/continuous-deployment-flux-demo branch=master HEAD=dbf62188f5f4426c1ad6b8043383800b1a4903fb
-```
-
-
-### Clean up
-
-```sh
-make delete-cluster
 ```
